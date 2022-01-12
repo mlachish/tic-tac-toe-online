@@ -1,6 +1,4 @@
-const players = {
-
-}
+const players = {}
 
 function getPlayer(playerId) {
     return players[playerId];

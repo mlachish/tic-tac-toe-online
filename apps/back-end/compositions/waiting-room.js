@@ -1,22 +1,20 @@
 const { createGame } = require("../games")
 const { joinGame } = require("../players")
+const { disconnectPlayer } = require("../players-sockets")
 
-const randomWaiting = null
+let randomWaiting = null
 
-
-function useWaitingRoom(socket, player) {
+function useWaitingRoom(player) {
     switch (player.connectionOption) {
         case 'random':
-            if (randomWaiting) {
-                randomWaiting(player.id)
-                socket.disconnect()
+            if (randomWaiting && randomWaiting !== player.id) {
+                createGame(player.id, randomWaiting)
+                joinGame(player.id, game.id)
+                joinGame(randomWaiting, game.id)
+                disconnectPlayer(player.id)
+                disconnectPlayer(randomWaiting)
             } else {
-                randomWaiting = (opponentId) => {
-                    const game = createGame(player.id, opponentId)
-                    joinGame(player.id, game.id)
-                    joinGame(opponentId, game.id)
-                    socket.disconnect()
-                }
+                randomWaiting = player.id
             }
             break
         case 'host':

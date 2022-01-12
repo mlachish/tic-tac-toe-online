@@ -8,10 +8,21 @@ function createGame(playerA, playerB) {
             o: playerB
         },
         board: getNewBoard(),
-        round: 'x'
+        round: 'x',
+        status: 'running',
+        winner: null
     }
-    games[game] = game
-    return 
+    games[game.id] = game
+
+    return game
+}
+
+function getGame(gameId) {
+    return games[gameId]
+}
+
+function removeGame(gameId) {
+    delete games[gameId]
 }
 
 function getNewBoard() {
@@ -23,5 +34,7 @@ function getNewBoard() {
 }
 
 module.exports = {
-    createGame
+    createGame,
+    getGame,
+    removeGame
 }
