@@ -1,4 +1,6 @@
-const app = require('express')();
-const server = require('http').createServer(app);
+const app = require('express')()
+app.use(require('cors')())
+app.use(require('./routes.js'))
+const server = require('http').createServer(app)
 require('./socket')(server)
-server.listen(3000);
+server.listen(4000)

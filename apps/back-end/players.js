@@ -4,7 +4,7 @@ function getPlayer(playerId) {
     return players[playerId];
 }
 
-function createPlayer(nickname, connectionOption) {
+function createPlayer({nickname, connectionOption}) {
     const newId = (Buffer.from(Math.random().toString() + nickname)).toString('base64')
     players[newId] = {
         id: newId,
@@ -12,6 +12,7 @@ function createPlayer(nickname, connectionOption) {
         connectionOption,
         status: 'waiting'
     }
+    return players[newId]
 }
 
 function removePlayer(playerId) {
@@ -21,7 +22,7 @@ function removePlayer(playerId) {
 function joinGame(playerId, gameId) {
     const player = getPlayer(playerId)
     player.gameId = gameId
-    player.status = 'playing'
+    player.status = 'running'
 }
 
 module.exports = {

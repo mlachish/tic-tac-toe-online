@@ -10,7 +10,8 @@ function createGame(playerA, playerB) {
         board: getNewBoard(),
         round: 'x',
         status: 'running',
-        winner: null
+        winner: null,
+        restarted: []
     }
     games[game.id] = game
 
@@ -19,6 +20,16 @@ function createGame(playerA, playerB) {
 
 function getGame(gameId) {
     return games[gameId]
+}
+
+function resetGame(gameId) {
+    const game = getGame(gameId)
+    Object.assign(game, { 
+        board: getNewBoard(),
+        restarted: [],
+        status: 'running',
+        winner: null
+    })
 }
 
 function removeGame(gameId) {
@@ -36,5 +47,6 @@ function getNewBoard() {
 module.exports = {
     createGame,
     getGame,
+    resetGame,
     removeGame
 }

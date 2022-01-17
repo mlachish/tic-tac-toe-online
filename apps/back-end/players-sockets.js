@@ -20,9 +20,17 @@ function disconnectPlayer(playerId) {
     }
 }
 
+function emitToPlayer(playerId, eventName, data) {
+    const socket = getPlayerSocket(playerId)
+    if (socket) {
+        socket.emit(eventName, data)
+    }
+}
+
 module.exports = {
     setPlayerSocket,
     getPlayerSocket,
     removePlayerSocket,
+    emitToPlayer,
     disconnectPlayer
 }
