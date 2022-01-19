@@ -22,7 +22,7 @@ function removePlayer(playerId) {
 function joinGame(playerId, gameId) {
     const player = getPlayer(playerId)
     player.gameId = gameId
-    player.status = 'running'
+    player.status = 'playing'
 }
 
 module.exports = {

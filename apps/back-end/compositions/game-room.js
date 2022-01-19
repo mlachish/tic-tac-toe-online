@@ -1,3 +1,4 @@
+const e = require("express")
 const { getGame, resetGame } = require("../games")
 const { getPlayerSocket, emitToPlayer } = require("../players-sockets")
 
@@ -8,6 +9,7 @@ function useGameRoom(player) {
     function sendStatus() {
         socket.emit('status', game)
     }
+    sendStatus()
 
     socket.on('request-status', sendStatus)
     
@@ -31,6 +33,9 @@ function useGameRoom(player) {
         if (status === 'running') {
             game.round = game.round === 'x' ? 'o' : 'x'
         }
+
+        emitToPlayer(game.players.x, 'status', game)
+        emitToPlayer(game.players.o, 'status', game)
     })
 
     socket.on('restart', () => {

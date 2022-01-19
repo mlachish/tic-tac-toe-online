@@ -31,14 +31,14 @@ function App() {
 
   function setPlayerToken(playerId) {
     localStorage.setItem('userToken', playerId)
-    setPlayState('waiting')
+    setPlayState('identify')
   }
 
   return (
     <div className="App">
-      {playState === 'enter' && <EnterGame onEnterGame={setPlayerToken()}/>}
+      {playState === 'enter' && <EnterGame onEnterGame={setPlayerToken}/>}
       {playState === 'waiting' && <WaitingRoom />}
-      {playState === 'running' && <GameRoom />}
+      {playState === 'running' && <GameRoom gameStatus={gameStatus}/>}
       {playState === 'ended' && <EndGame />}
     </div>
   )

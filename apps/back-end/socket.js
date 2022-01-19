@@ -9,7 +9,15 @@ module.exports = function createSocketIo(http) {
     io.on('connection', (socket) => {
         socket.on('identify', (userId) => {
             const player = getPlayer(userId)
-            setPlayerSocket(player.id, socket)
+            
+            if (!player) {
+                socket.emit('status', {
+                    status: 'enter'
+                })
+                return
+            }
+
+            setPlayerSocket(userId, socket)
 
             if (player.status === 'waiting') {
                 useWaitingRoom(player)

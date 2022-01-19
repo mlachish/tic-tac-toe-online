@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "lerna run dev --parallel",
-    "postinstall": "lerna bootstrap"
+    "postinstall": "lerna bootstrap",
+    "start": "cd apps/back-end && npm start"
   },
   "author": "",
   "license": "ISC",

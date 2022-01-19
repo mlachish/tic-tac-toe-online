@@ -10,6 +10,6 @@ const enterGame = (req, res) => {
 }
 
 router
-    .post('api/enter', express.json(), enterGame)
+    .post('/api/enter', express.json(), enterGame)
 
 module.exports = router
