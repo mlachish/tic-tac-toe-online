@@ -1,38 +1,28 @@
-import { useMemo } from 'react'
+import { useContext } from 'react'
 
-import { socket } from '../socket'
+import { TicTacToeContext } from '../store'
+import Score from '../components/Score'
 
-export default function GameRoom({gameStatus}) { 
-    const mySign = useMemo(() => {
-        return localStorage.userToken === gameStatus.players.x ? 'x' : 'o'
-    }, [])
+export default function GameRoom() {
+	const { gameStatus, isMyTurn, makeMove } = useContext(TicTacToeContext)
 
-    const isMyTurn = useMemo(() => {
-        return gameStatus.round === mySign
-    }, [gameStatus])
-
-    function handleClick(i, j) {
-        if (!gameStatus.board[i][j]) {
-            socket.emit('move', {i,j})
-        }
-    }
-
-    return (
-        <>
-            <div>game room</div>
-            <p>{isMyTurn ? 'My Turn' : 'Wait for your turn'}</p>
-            <table>
-                <tbody>
-                    {gameStatus.board.map((row, i) => 
-                        <tr key={i}>
-                            {row.map((cell, j) => 
-                                <td key={j} onClick={() => handleClick(i, j)}>
-                                    {cell}
-                                </td>)}
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        </>
-    )
+	return (
+		<>
+			<h1>{isMyTurn ? 'My Turn' : 'Wait for your turn'}</h1>
+			<table>
+				<tbody>
+					{gameStatus.board.map((row, i) => (
+						<tr key={i}>
+							{row.map((cell, j) => (
+								<td key={j} onClick={() => makeMove(i, j)}>
+									{cell}
+								</td>
+							))}
+						</tr>
+					))}
+				</tbody>
+			</table>
+			<Score />
+		</>
+	)
 }
