@@ -1,13 +1,64 @@
-import { createContext, useState, useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
+import {
+	RecoilRoot,
+	atom,
+	useSetRecoilState,
+	useRecoilValue,
+	selector,
+} from 'recoil'
 import { socket } from './socket.js'
 
-export const TicTacToeContext = createContext({})
+export const playState = atom({
+	key: 'playState',
+	default: localStorage.userToken ? '' : 'enter',
+})
+export const gameStatusState = atom({ key: 'gameStatusState', default: {} })
 
-export default function TicTacToeProvider({ children }) {
-	const [playState, setPlayState] = useState(
-		localStorage.userToken ? null : 'enter'
-	)
-	const [gameStatus, setGameStatus] = useState(null)
+export function useSetPlayerToken() {
+	const setPlayState = useSetRecoilState(playState)
+
+	return function setPlayerToken(playerId) {
+		localStorage.setItem('userToken', playerId)
+		setPlayState('identify')
+	}
+}
+
+const mySignState = selector({
+	key: 'mySignState',
+	get: ({ get }) => {
+		const play = get(playState)
+		const gameStatus = get(gameStatusState)
+
+		return (
+			play === 'running' &&
+			(localStorage.userToken === gameStatus.players.x ? 'x' : 'o')
+		)
+	},
+})
+
+export const isMyTurnState = selector({
+	key: 'isMyTurnState',
+	get: ({ get }) => {
+		const gameStatus = get(gameStatusState)
+
+		return gameStatus && gameStatus.round === get(mySignState)
+	},
+})
+
+export function useMakeMove() {
+	const gameStatus = useRecoilValue(gameStatusState)
+
+	return function makeMove(i, j) {
+		if (!gameStatus.board[i][j]) {
+			socket.emit('move', { i, j })
+		}
+	}
+}
+
+function StateInit() {
+	const setGameStatus = useSetRecoilState(gameStatusState)
+	const setPlayState = useSetRecoilState(playState)
+	const play = useRecoilValue(playState)
 
 	useEffect(() => {
 		socket.on('status', (gameStatus) => {
@@ -23,35 +74,19 @@ export default function TicTacToeProvider({ children }) {
 	}, [])
 
 	useEffect(() => {
-		if (playState === 'identify') {
+		if (play === 'identify') {
 			socket.emit('identify', localStorage.userToken)
 		}
-	}, [playState])
+	}, [play])
 
-	function setPlayerToken(playerId) {
-		localStorage.setItem('userToken', playerId)
-		setPlayState('identify')
-	}
+	return null
+}
 
-  const mySign = useMemo(() => {
-		return playState === 'running' && (localStorage.userToken === gameStatus.players.x ? 'x' : 'o')
-	}, [playState])
-
-	const isMyTurn = useMemo(() => {
-		return gameStatus && gameStatus.round === mySign
-	}, [gameStatus])
-
-	function makeMove(i, j) {
-		if (!gameStatus.board[i][j]) {
-			socket.emit('move', { i, j })
-		}
-	}
-
+export default function TicTacToeProvider({ children }) {
 	return (
-		<TicTacToeContext.Provider
-			value={{ playState, setPlayerToken, gameStatus, isMyTurn, makeMove }}
-		>
-			{children}
-		</TicTacToeContext.Provider>
+		<RecoilRoot>
+			<StateInit />
+      {children}
+		</RecoilRoot>
 	)
 }
