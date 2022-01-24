@@ -1,5 +1,4 @@
-import { useContext } from 'react'
-import { TicTacToeContext } from '../store'
+import { useSetPlayerToken } from '../store'
 
 function login(nickname, connectionOption) {
 	return fetch(`${import.meta.env.VITE_API_URL}/api/enter`, {
@@ -14,7 +13,7 @@ function login(nickname, connectionOption) {
 }
 
 export default function EnterGame() {
-	const { setPlayerToken } = useContext(TicTacToeContext)
+	const setPlayerToken = useSetPlayerToken()
 
 	return (
 		<form

@@ -1,10 +1,12 @@
-import { useContext } from 'react'
+import {useRecoilValue} from 'recoil'
 
-import { TicTacToeContext } from '../store'
+import { isMyTurnState, useMakeMove, gameStatusState } from '../store'
 import Score from '../components/Score'
 
 export default function GameRoom() {
-	const { gameStatus, isMyTurn, makeMove } = useContext(TicTacToeContext)
+    const isMyTurn = useRecoilValue(isMyTurnState)
+    const gameStatus = useRecoilValue(gameStatusState)
+    const makeMove = useMakeMove()
 
 	return (
 		<>
