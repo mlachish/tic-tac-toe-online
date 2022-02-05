@@ -3,6 +3,7 @@ const games = {}
 function createGame(playerA, playerB) {
     const game = {
         id: Math.random().toString(),
+        room: id.slice(-4),
         players: {
             x: playerA,
             o: playerB

@@ -10,6 +10,7 @@ function createPlayer({nickname, connectionOption}) {
         id: newId,
         nickname,
         connectionOption,
+        room: null,
         status: 'waiting'
     }
     return players[newId]
