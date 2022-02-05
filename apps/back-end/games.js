@@ -6,13 +6,13 @@ function createGame(playerA, playerB) {
         room: id.slice(-4),
         players: {
             x: playerA,
-            o: playerB
+            o: playerB,
         },
         board: getNewBoard(),
         round: 'x',
         status: 'running',
         winner: null,
-        restarted: []
+        restarted: [],
     }
     games[game.id] = game
 
@@ -25,11 +25,11 @@ function getGame(gameId) {
 
 function resetGame(gameId) {
     const game = getGame(gameId)
-    Object.assign(game, { 
+    Object.assign(game, {
         board: getNewBoard(),
         restarted: [],
         status: 'running',
-        winner: null
+        winner: null,
     })
 }
 
@@ -41,7 +41,7 @@ function getNewBoard() {
     return [
         [null, null, null],
         [null, null, null],
-        [null, null, null]
+        [null, null, null],
     ]
 }
 
@@ -49,5 +49,5 @@ module.exports = {
     createGame,
     getGame,
     resetGame,
-    removeGame
+    removeGame,
 }

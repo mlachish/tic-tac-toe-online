@@ -1,5 +1,7 @@
-export default function WaitingRoom() { 
+export default function WaitingRoom() {
     return (
-        <div>waiting room</div>
+        <div className="waiting-room">
+            Finding an opponent<span>...</span>
+        </div>
     )
 }

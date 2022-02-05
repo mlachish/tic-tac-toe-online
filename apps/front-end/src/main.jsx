@@ -5,10 +5,10 @@ import App from './App'
 import TicTacToeProvider from './store'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <TicTacToeProvider>
-      <App />
-    </TicTacToeProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <TicTacToeProvider>
+            <App />
+        </TicTacToeProvider>
+    </React.StrictMode>,
+    document.getElementById('root')
 )

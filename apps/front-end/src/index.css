@@ -1,43 +1,119 @@
 @import url('https://fonts.googleapis.com/css2?family=Style+Script&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
 * {
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+        'Helvetica Neue', sans-serif;
 }
 
 body {
-  margin: 0;
-  font-family: 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: flex;
-  justify-content: center;
-  text-align: center;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    background-color: rgb(215, 231, 253);
+}
+
+:root {
+    --main-bg-color: rgb(115, 171, 255);
+    --main-border-color: rgb(78, 117, 177);
+    --main-shadow-highlight: rgb(189, 216, 255);
 }
 
 table {
-  border-spacing: 10px;
+    border-spacing: 10px;
 }
 
 td {
-  width: 100px;
-  height: 100px;
-  padding: 10px;
-  background-color: rgb(115, 171, 255);
-  border-radius: 5px;
-  box-shadow: 4px 4px rgb(78, 117, 177),
-        inset 4px 4px rgb(189, 216, 255);
-  font-size: 5rem;
-  vertical-align: middle;
-  cursor: pointer;
+    width: 100px;
+    height: 100px;
+    padding: 10px;
+    background-color: var(--main-bg-color);
+    border-radius: 5px;
+    box-shadow: 4px 4px var(--main-border-color),
+        inset 4px 4px var(--main-shadow-highlight);
+    font-size: 5rem;
+    vertical-align: middle;
+    cursor: pointer;
 }
 
 td:active {
-  box-shadow: inset 4px 4px rgb(78, 117, 177),
-              4px 4px rgb(189, 216, 255);
+    box-shadow: inset 4px 4px var(--main-border-color),
+        4px 4px var(--main-shadow-highlight);
 }
 
 .score {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.enter-game {
+    margin-top: 20%;
+}
+
+.enter-game h1 {
+    font-size: 2.5rem;
+}
+
+.enter-game form {
+    margin-top: 10vh;
+    background-color: var(--main-bg-color);
+    padding: 1rem;
+    box-shadow: 3px 3px var(--main-border-color),
+        inset 4px 4px var(--main-shadow-highlight);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1rem;
+    font-size: 1.5rem;
+    line-height: 1.5px;
+}
+
+.enter-game form input {
+    font-size: inherit;
+    padding: 0.5rem;
+    border-radius: 5px;
+    margin-left: 4px;
+}
+
+.enter-game button {
+    margin-left: 45%;
+    padding: 0.5rem;
+    font-size: inherit;
+    border-radius: 5px;
+}
+
+.waiting-room span {
+    overflow: hidden;
+    border-right: 0.15em solid black;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: 0.15em;
+    animation: typing 3.5s steps(40, end), blink-cursor 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink-caret {
+    from,
+    to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: black;
+    }
 }

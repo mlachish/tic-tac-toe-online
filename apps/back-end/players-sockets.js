@@ -32,5 +32,5 @@ module.exports = {
     getPlayerSocket,
     removePlayerSocket,
     emitToPlayer,
-    disconnectPlayer
+    disconnectPlayer,
 }

@@ -1,12 +1,12 @@
-const { createGame } = require("../games")
-const { joinGame } = require("../players")
-const { disconnectPlayer, emitToPlayer } = require("../players-sockets")
+const { createGame } = require('../games')
+const { joinGame } = require('../players')
+const { disconnectPlayer, emitToPlayer } = require('../players-sockets')
 
 let playerWaiting = null
 // add host and join cases
 function useWaitingRoom(player) {
-    emitToPlayer(player.id, 'status', {status: 'waiting'})
-    
+    emitToPlayer(player.id, 'status', { status: 'waiting' })
+
     switch (player.connectionOption) {
         case 'random':
             if (playerWaiting && playerWaiting !== player.id) {
@@ -37,5 +37,5 @@ function useWaitingRoom(player) {
 }
 
 module.exports = {
-    useWaitingRoom
+    useWaitingRoom,
 }

@@ -1,23 +1,25 @@
 const players = {}
 
 function getPlayer(playerId) {
-    return players[playerId];
+    return players[playerId]
 }
 
-function createPlayer({nickname, connectionOption}) {
-    const newId = (Buffer.from(Math.random().toString() + nickname)).toString('base64')
+function createPlayer({ nickname, connectionOption }) {
+    const newId = Buffer.from(Math.random().toString() + nickname).toString(
+        'base64'
+    )
     players[newId] = {
         id: newId,
         nickname,
         connectionOption,
         room: null,
-        status: 'waiting'
+        status: 'waiting',
     }
     return players[newId]
 }
 
 function removePlayer(playerId) {
-    delete players[playerId];
+    delete players[playerId]
 }
 
 function joinGame(playerId, gameId) {
@@ -30,5 +32,5 @@ module.exports = {
     getPlayer,
     createPlayer,
     removePlayer,
-    joinGame
+    joinGame,
 }

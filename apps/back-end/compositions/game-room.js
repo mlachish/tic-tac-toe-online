@@ -1,6 +1,6 @@
-const e = require("express")
-const { getGame, resetGame } = require("../games")
-const { getPlayerSocket, emitToPlayer } = require("../players-sockets")
+const e = require('express')
+const { getGame, resetGame } = require('../games')
+const { getPlayerSocket, emitToPlayer } = require('../players-sockets')
 
 function useGameRoom(player) {
     const game = getGame(player.gameId)
@@ -12,8 +12,8 @@ function useGameRoom(player) {
     sendStatus()
 
     socket.on('request-status', sendStatus)
-    
-    socket.on('move', ({i, j}) => { 
+
+    socket.on('move', ({ i, j }) => {
         const currentPlayerId = game.players[game.round]
 
         if (currentPlayerId !== player.id) {
@@ -24,12 +24,12 @@ function useGameRoom(player) {
             return
         }
 
-        game.board[i][j] = game.round 
+        game.board[i][j] = game.round
 
-        const {status, winner} = getGameStatus(game)
+        const { status, winner } = getGameStatus(game)
         game.status = status
         game.winner = game.players[winner] || null
-        
+
         if (status === 'running') {
             game.round = game.round === 'x' ? 'o' : 'x'
         }
@@ -41,7 +41,7 @@ function useGameRoom(player) {
     socket.on('restart', () => {
         if (game.restarted.includes(player.id)) {
             return
-        } 
+        }
         game.restarted.push(player.id)
 
         if (game.restarted.length === 2) {
@@ -52,32 +52,38 @@ function useGameRoom(player) {
     })
 }
 
-function getGameStatus({round, board}) {
-    const status = {status: 'running', winner: null}
+function getGameStatus({ round, board }) {
+    const status = { status: 'running', winner: null }
     const winningString = round + round + round
 
     for (let i = 0; i < board.length; i++) {
         const row = board[i]
         const column = board.map((row) => row[i])
 
-        if (row.join('') === winningString || column.join('') === winningString) {
+        if (
+            row.join('') === winningString ||
+            column.join('') === winningString
+        ) {
             status.status = 'ended'
             status.winner = round
             break
         }
     }
-    
+
     if (!status.winner) {
         const diagonalA = board.map((_, i) => board[i][i])
         const diagonalB = board.map((_, i) => board[board.length - i - 1][i])
-    
-        if (diagonalA.join('') === winningString || diagonalB.join('') === winningString) {
+
+        if (
+            diagonalA.join('') === winningString ||
+            diagonalB.join('') === winningString
+        ) {
             status.status = 'ended'
             status.winner = round
         }
     }
 
-    if (!status.winner && board.every(row => !row.includes(null))) {
+    if (!status.winner && board.every((row) => !row.includes(null))) {
         status.status = 'ended'
     }
 
@@ -85,5 +91,5 @@ function getGameStatus({round, board}) {
 }
 
 module.exports = {
-    useGameRoom
+    useGameRoom,
 }
